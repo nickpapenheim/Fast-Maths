@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267ae5d29d9fb314b96b6b00ba6c1820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Start_Game_Script
---- !u!1 &1017866363
+--- !u!1 &1712375810
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -410,9 +410,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1017866366}
-  - component: {fileID: 1017866365}
-  - component: {fileID: 1017866364}
+  - component: {fileID: 1712375813}
+  - component: {fileID: 1712375812}
+  - component: {fileID: 1712375811}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -420,13 +420,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1017866364
+--- !u!114 &1712375811
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1017866363}
+  m_GameObject: {fileID: 1712375810}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
@@ -451,13 +451,13 @@ MonoBehaviour:
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
---- !u!114 &1017866365
+--- !u!114 &1712375812
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1017866363}
+  m_GameObject: {fileID: 1712375810}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
@@ -466,13 +466,13 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!4 &1017866366
+--- !u!4 &1712375813
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1017866363}
+  m_GameObject: {fileID: 1712375810}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 2000812959}
   - component: {fileID: 2000812958}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Main_Menu_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -595,7 +595,7 @@ GameObject:
   - component: {fileID: 2081953940}
   - component: {fileID: 2081953939}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -819,4 +819,4 @@ SceneRoots:
   - {fileID: 2132886493}
   - {fileID: 2000812961}
   - {fileID: 2081953940}
-  - {fileID: 1017866366}
+  - {fileID: 1712375813}
