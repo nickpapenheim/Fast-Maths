@@ -1,4 +1,6 @@
+using Unity.VectorGraphics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Start_Game_Script : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class Start_Game_Script : MonoBehaviour
         
     }
 
-    void start_game() {
-        
+    public void Start_game() {
+        SceneManager.LoadScene("Game");
     }
 }
