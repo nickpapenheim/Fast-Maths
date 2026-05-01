@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -9,26 +10,33 @@ public class GameLogic : MonoBehaviour
 
     // Festlegen des Gameobjects in dem die Eingabe erscheint
     public TextMeshProUGUI Eingabe;
+    // Festlegen des Gameobjects in dem der Score angezeigt wird
+    public TextMeshProUGUI ScoreUI;
     // Festlegen des Gameobjects in dem die übrige Zeit erscheint
     public TextMeshProUGUI Timer;
     // Festlegen des Gameobjects mit dem die Aufgaben dargestellt werden
     public GameObject task_prefab;
 
     public GameObject GameOverScreen;
+    // Liste der aktiven Tasks
+    public List<Task_Script> activeTasks = new List<Task_Script>();
+
     //
     // PARAMETER
     //
-
+    public int score = 0;
     // Festlegen der Spielzeit in Sekunden TODO: auf guten wert festlegen - 180? 300?
     float zeit = 10f;
     //
     // Festlegen der möglichen Spawnposition der Tasks, TODO: Dynamisches anpassen an Bildschirm, ich habe aktuell auf einem 1920x1080p Monitor getestet x für linken bildschirmrand y für höhe auf dem bildschirm
-    float task_x = -8f;
+    float task_x = -7f;
     float task_min_y = -12f;
-    float task_max_y = -18f;
+    float task_max_y = -20f;
     float random_task_y;
+    // Festlegen der Zeit zwischen Aufgaben TODO: Das an Schwierigkeitsgrad anpassen
+    float delay = 1.5f;
     // gibt an ob Spiel pausiert ist
-    bool gamePaused = false;
+    public bool gamePaused = false;
     
 
     //
@@ -37,7 +45,7 @@ public class GameLogic : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        InvokeRepeating(nameof(Spawn_task), 0f, 2f);
+        InvokeRepeating(nameof(Spawn_task), delay, 2*delay);
     }
 
     // Update is called once per frame
@@ -55,14 +63,25 @@ public class GameLogic : MonoBehaviour
                 Timer.text = zeit.ToString().Split(",")[0];
             }
         }
-        
-
+        // Falls aktuell keine Aufgaben da sind sofort eine neue Aufgabe spawnen
+        if(activeTasks.Count==0)
+        {
+            Spawn_task();
+        }
 
         // Steuerungsskripte
         // Eingabe der Lösung beim Drücken der Entertaste und nicht leerem String
         if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            // TODO Lösungskontrollskript
+                foreach (Task_Script Task in activeTasks){
+                if (Eingabe.text == Task.solution.ToString()) {
+                    Task.remove_task();
+                    // TODO: Hier irgendwelche Multiplikatoren zur Motivation schnellerer Lösungen einbauen
+                    score = score + 100;
+                    ScoreUI.text=score.ToString();
+                    break;
+                } else {}
+            } 
             Eingabe.text = "";
         }
         // Löschen des letzten Zeichens bei nicht leerem Eingabestring
@@ -111,11 +130,7 @@ public class GameLogic : MonoBehaviour
         }
          if(Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
         {
-            // Wenn Eingabe leer ist, kann keine 0 als erstes Zeichen gesetzt werden.
-            if (!(Eingabe.text==""))
-            {
-                Eingabe.text = Eingabe.text + "9";
-            }
+                Eingabe.text = Eingabe.text + "0";
         }
     }
 
@@ -133,7 +148,7 @@ public class GameLogic : MonoBehaviour
     {
         if (gamePaused == false) {
             random_task_y = Random.Range(task_min_y, task_max_y);
-            Instantiate(task_prefab, new Vector3(task_x, random_task_y, 0f), Quaternion.identity);
+           Instantiate(task_prefab, new Vector3(task_x, random_task_y, 0f), Quaternion.identity);
         }
     }
 }

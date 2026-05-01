@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 5500654732805272353}
   m_Layer: 0
   m_Name: Task_Prefab
-  m_TagString: Untagged
+  m_TagString: Task
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,8 +206,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5584996771642381352}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.04726, y: -21.0742, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15.711445, y: -18.105183, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -227,6 +227,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   text: {fileID: 5816612111013919217}
+  gameLogic: {fileID: 0}
+  solution: 0
+  task_speed: 2
 --- !u!1 &7167340523275262377
 GameObject:
   m_ObjectHideFlags: 0
