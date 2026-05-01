@@ -3,30 +3,59 @@ using UnityEngine;
 
 public class GameLogic : MonoBehaviour
 {
+    //
+    // GAMEOBJECTS
+    //
+
     // Festlegen des Gameobjects in dem die Eingabe erscheint
     public TextMeshProUGUI Eingabe;
     // Festlegen des Gameobjects in dem die übrige Zeit erscheint
     public TextMeshProUGUI Timer;
-    // Spielzeit
-    float zeit = 10f;
+    // Festlegen des Gameobjects mit dem die Aufgaben dargestellt werden
+    public GameObject task_prefab;
+
     public GameObject GameOverScreen;
+    //
+    // PARAMETER
+    //
+
+    // Festlegen der Spielzeit in Sekunden TODO: auf guten wert festlegen - 180? 300?
+    float zeit = 10f;
+    //
+    // Festlegen der möglichen Spawnposition der Tasks, TODO: Dynamisches anpassen an Bildschirm, ich habe aktuell auf einem 1920x1080p Monitor getestet x für linken bildschirmrand y für höhe auf dem bildschirm
+    float task_x = -8f;
+    float task_min_y = -12f;
+    float task_max_y = -18f;
+    float random_task_y;
+    // gibt an ob Spiel pausiert ist
+    bool gamePaused = false;
+    
+
+    //
+    // CALLS DURCH UNITY
+    //
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        InvokeRepeating(nameof(Spawn_task), 0f, 2f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Runterticken des Timers 
-        zeit = zeit - Time.deltaTime;
-        if (zeit < 0)
+        // Runterticken des Timers
+        if (gamePaused == false)
         {
-            End_game();
-        } else
-        {
-            Timer.text = zeit.ToString().Split(",")[0];
+            zeit = zeit - Time.deltaTime;
+            if (zeit < 0)
+            {
+                End_game();
+            } else
+            {
+                Timer.text = zeit.ToString().Split(",")[0];
+            }
         }
+        
 
 
         // Steuerungsskripte
@@ -90,8 +119,21 @@ public class GameLogic : MonoBehaviour
         }
     }
 
+    //
+    // METHODEN
+    //
+
     void End_game()
     {
+        gamePaused = true;
         GameOverScreen.SetActive(true);
+    }
+
+    void Spawn_task()
+    {
+        if (gamePaused == false) {
+            random_task_y = Random.Range(task_min_y, task_max_y);
+            Instantiate(task_prefab, new Vector3(task_x, random_task_y, 0f), Quaternion.identity);
+        }
     }
 }
