@@ -25,8 +25,7 @@ public class GameLogic : MonoBehaviour
     // PARAMETER
     //
     public int score = 0;
-    // Festlegen der Spielzeit in Sekunden TODO: auf guten wert festlegen - 180? 300?
-    float zeit = 10f;
+    float zeit = Start_Game_Script.settings_zeit;
     //
     // Festlegen der möglichen Spawnposition der Tasks, TODO: Dynamisches anpassen an Bildschirm, ich habe aktuell auf einem 1920x1080p Monitor getestet x für linken bildschirmrand y für höhe auf dem bildschirm
     float task_x = -7f;
