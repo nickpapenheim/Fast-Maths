@@ -52,7 +52,12 @@ public class Task_Script : MonoBehaviour
                 solution = zahl1 * zahl2;
             break;
             // Division wird umgesetzt indem das Ergebnis einer Multiplikation zweier natürlichlicher Zufallszahlen durch einen der beiden Faktoren dargestellt wird.
+            // Im Falle einer 0 im Divisor wird dieser zur 7. 
             case 3:
+                if (zahl2 == 0)
+                {
+                    zahl2=7;
+                }
                 text.text =zahl1*zahl2 + "/" + zahl2;
                 solution = zahl1;
             break;
@@ -76,7 +81,7 @@ public class Task_Script : MonoBehaviour
             } else
             {
                 time = time + Time.deltaTime;
-                if (time > 4)
+                if (time > Start_Game_Script.settings_schwierigkeit/2)
                 {
                     remove_task();
                 }

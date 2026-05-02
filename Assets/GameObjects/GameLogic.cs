@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameLogic : MonoBehaviour
 {
@@ -62,7 +63,7 @@ public class GameLogic : MonoBehaviour
                 End_game();
             } else
             {
-                Timer.text = zeit.ToString().Split(",")[0];
+                Timer.text = Mathf.RoundToInt(zeit).ToString();
             }
         }
         // Falls aktuell keine Aufgaben da sind sofort eine neue Aufgabe spawnen
@@ -73,7 +74,7 @@ public class GameLogic : MonoBehaviour
 
         // Steuerungsskripte
         // Eingabe der Lösung beim Drücken der Entertaste und nicht leerem String
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+        if ((Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) && Eingabe.text != "")
         {
                 wrongSolution = true;
                 foreach (Task_Script Task in activeTasks){
@@ -91,7 +92,7 @@ public class GameLogic : MonoBehaviour
             {
                 foreach (Task_Script Task in activeTasks)
                 {
-                    Task.task_speed = Task.task_speed * 1.5f;
+                    Task.task_speed = Task.task_speed * 2f;
                 }
             }
             Eingabe.text = "";
@@ -175,5 +176,10 @@ public class GameLogic : MonoBehaviour
         score = 0;
         ScoreUI.text=score.ToString();
         gamePaused = false;
+    }
+
+    public void Return_to_Menu()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }
