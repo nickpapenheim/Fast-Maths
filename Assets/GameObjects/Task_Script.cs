@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,47 +7,91 @@ public class Task_Script : MonoBehaviour
 {
     public TextMeshPro text;
     public GameLogic gameLogic;
+    int stellenAnzahl = Start_Game_Script.settings_stellenanzahl;
+    int rechenart = Start_Game_Script.settings_rechenart;
     int zahl1;
     int zahl2;
     int randomZahl;
     public float solution;
-    // Initialisieren der Geschwindigkeit von den Aufgaben TODO: Mechanismus entwerfen um ihn an Schwierigkeit anzupassen
-    public float task_speed = 0.5f;
+    // Initialisieren der Geschwindigkeit von den Aufgaben TODO: Mechanismus verbessern um ihn an Schwierigkeit anzupassen
+    public float task_speed;
+    // wird benutzt um Task am rechten Bildschirmrand zu zerstören
+    float time = 0;
     bool movingRight = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     { // TODO : FindObject ist computationally teuer, vlt gibt es hier eine bessere Lösung mit direktverweisen? 
         gameLogic = FindAnyObjectByType<GameLogic>();
-        // TODO: RandomizedZahl soll nach globaler Variable viele stellen bekommen
-        zahl1 = RandomizedZahl(1);
-        zahl2 = RandomizedZahl(1);
-        text.text=zahl1 + "*" + zahl2;
-        // TODO: Logik solution zu bestimmen nach gewählter Rechenform
-        solution = zahl1 * zahl2;
+        task_speed = 1f/Start_Game_Script.settings_schwierigkeit;
+        zahl1 = RandomizedZahl(stellenAnzahl);
+        zahl2 = RandomizedZahl(stellenAnzahl);
+        // Je nach gewählter Rechenart in den Settings wird der Text und die Solution anders bestimmt 
+        switch (rechenart)
+        {
+            // Addition
+            case 0:
+                text.text=zahl1 + "+" + zahl2;
+                solution = zahl1 + zahl2;
+            break;
+            // Subtraktion: Es wird immer die größere minus die kleinere Zahl gerechnet um negative Zahlen zu vermiden
+            case 1:
+                if (zahl1 >= zahl2)
+                {
+                    text.text= zahl1 + "-" + zahl2;
+                    solution = zahl1 - zahl2;
+                } else
+                {
+                    text.text= zahl2 + "-" + zahl1;
+                    solution = zahl2 - zahl1;
+                }
+                
+            break;
+            // Multiplikation
+            case 2:
+                text.text =zahl1 + "*" + zahl2;
+                solution = zahl1 * zahl2;
+            break;
+            // Division wird umgesetzt indem das Ergebnis einer Multiplikation zweier natürlichlicher Zufallszahlen durch einen der beiden Faktoren dargestellt wird.
+            case 3:
+                text.text =zahl1*zahl2 + "/" + zahl2;
+                solution = zahl1;
+            break;
+        }
         gameLogic.activeTasks.Add(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (movingRight && gameLogic.gamePaused == false)
-        {
-            if (transform.position.x <= 5)
+        if (gameLogic.gamePaused == false) {
+            if (movingRight)
             {
-                transform.Translate(Vector3.right * task_speed * Time.deltaTime);
+                if (transform.position.x <= 5)
+                {
+                    transform.Translate(Vector3.right * task_speed * Time.deltaTime);
+                } else
+                {
+                    movingRight = false;
+                }
             } else
             {
-                movingRight = false;
+                time = time + Time.deltaTime;
+                if (time > 4)
+                {
+                    remove_task();
+                }
             }
 
         }
+        
     }
 
     // generiert random Zahl mit x vielen stellen
     int RandomizedZahl(int stellen)
     {
         // TODO: Zahlen weighten, 7 öfter, 0 und 1 weniger oft
-        randomZahl = Random.Range(0, 10*stellen);
+        
+        randomZahl = UnityEngine.Random.Range(0, Mathf.RoundToInt(Mathf.Pow(10,Start_Game_Script.settings_stellenanzahl)));
         return randomZahl;
     }
 

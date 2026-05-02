@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameLogic : MonoBehaviour
 {
+    public static GameLogic instance;
     //
     // GAMEOBJECTS
     //
@@ -30,10 +31,12 @@ public class GameLogic : MonoBehaviour
     // Festlegen der möglichen Spawnposition der Tasks, TODO: Dynamisches anpassen an Bildschirm, ich habe aktuell auf einem 1920x1080p Monitor getestet x für linken bildschirmrand y für höhe auf dem bildschirm
     float task_x = -7f;
     float task_min_y = -12f;
-    float task_max_y = -20f;
+    float task_max_y = -19f;
     float random_task_y;
-    // Festlegen der Zeit zwischen Aufgaben TODO: Das an Schwierigkeitsgrad anpassen
-    float delay = 1.5f;
+    // Festlegen der Zeit zwischen Aufgaben, je nach Schwierigkeitsgrad und stellenanzahl, config bei Start_Game_Script
+    float delay = Start_Game_Script.settings_schwierigkeit;
+    // Wird genutzt um bei falscher Eingabe Aufgaben zu beschleunigen
+    bool wrongSolution;
     // gibt an ob Spiel pausiert ist
     public bool gamePaused = false;
     
@@ -72,15 +75,25 @@ public class GameLogic : MonoBehaviour
         // Eingabe der Lösung beim Drücken der Entertaste und nicht leerem String
         if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
+                wrongSolution = true;
                 foreach (Task_Script Task in activeTasks){
                 if (Eingabe.text == Task.solution.ToString()) {
                     Task.remove_task();
                     // TODO: Hier irgendwelche Multiplikatoren zur Motivation schnellerer Lösungen einbauen
                     score = score + 100;
+                    wrongSolution = false;
                     ScoreUI.text=score.ToString();
                     break;
-                } else {}
+                }
             } 
+            // beschleunigt alle Tasks, falls keine richtige Lösung eingegeben wurde
+            if (wrongSolution == true)
+            {
+                foreach (Task_Script Task in activeTasks)
+                {
+                    Task.task_speed = Task.task_speed * 1.5f;
+                }
+            }
             Eingabe.text = "";
         }
         // Löschen des letzten Zeichens bei nicht leerem Eingabestring
@@ -139,6 +152,10 @@ public class GameLogic : MonoBehaviour
 
     void End_game()
     {
+        foreach (Task_Script Task in activeTasks)
+        {
+            Task.remove_task();
+        }
         gamePaused = true;
         GameOverScreen.SetActive(true);
     }
@@ -149,5 +166,14 @@ public class GameLogic : MonoBehaviour
             random_task_y = Random.Range(task_min_y, task_max_y);
            Instantiate(task_prefab, new Vector3(task_x, random_task_y, 0f), Quaternion.identity);
         }
+    }
+
+    public void Restart_game()
+    {
+        zeit = Start_Game_Script.settings_zeit;
+        GameOverScreen.SetActive(false);
+        score = 0;
+        ScoreUI.text=score.ToString();
+        gamePaused = false;
     }
 }
