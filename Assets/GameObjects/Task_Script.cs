@@ -11,7 +11,6 @@ public class Task_Script : MonoBehaviour
     int rechenart = Start_Game_Script.settings_rechenart;
     int zahl1;
     int zahl2;
-    int randomZahl;
     public float solution;
     // Initialisieren der Geschwindigkeit von den Aufgaben TODO: Mechanismus verbessern um ihn an Schwierigkeit anzupassen
     public float task_speed;
@@ -95,7 +94,7 @@ public class Task_Script : MonoBehaviour
     int RandomizedZahl(int stellen)
     {
         // TODO: Zahlen weighten, 7 öfter, 0 und 1 weniger oft
-        
+        int randomZahl;
         randomZahl = UnityEngine.Random.Range(0, Mathf.RoundToInt(Mathf.Pow(10,Start_Game_Script.settings_stellenanzahl)));
         return randomZahl;
     }
